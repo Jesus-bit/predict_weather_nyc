@@ -8,9 +8,6 @@ import { Thermometer, Droplet, Wind, Loader2 } from "lucide-react"
 import { nycDistricts } from "@/lib/constants/districts"
 import type { WeatherData, PredictionResponse, District } from './types'
 
-// Asegúrate de crear un archivo .env.local con tu API key
-const OPENWEATHER_API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY
-
 interface WeatherCardProps {
   onDistrictChange: (district: District) => void
 }
@@ -25,24 +22,15 @@ export default function WeatherCard({ onDistrictChange }: WeatherCardProps) {
   const fetchWeatherData = async (district: District) => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${district.lat}&lon=${district.lng}&appid=${OPENWEATHER_API_KEY}`
+        `/api/weather?lat=${district.lat}&lon=${district.lng}`
       )
 
       if (!response.ok) {
         throw new Error('Failed to fetch weather data')
       }
 
-      const data = await response.json()
-
-      // Transformar los datos al formato esperado
-      const formattedData: WeatherData = {
-        temperature: Math.round(data.main.temp), // Ya está en Fahrenheit por units=imperial
-        humidity: data.main.humidity,
-        windSpeed: Math.round(data.wind.speed),
-        pressure: data.main.pressure // Añadimos presión que necesitamos para las predicciones
-      }
-
-      return formattedData
+      const data: WeatherData = await response.json()
+      return data
     } catch (error) {
       console.error('Error fetching weather data:', error)
       throw error
@@ -89,7 +77,7 @@ export default function WeatherCard({ onDistrictChange }: WeatherCardProps) {
   // Cargar datos iniciales
   useEffect(() => {
     handlePredictWeather()
-  }, [handlePredictWeather])
+  }, [])
 
   return (
     <Card>
