@@ -9,7 +9,7 @@ interface WeatherRules {
 }
 
 function calculateWeatherScore(data: WeatherRules): {prediction: string, confidence: number} {
-  let scores = {
+  const scores = {
     Sunny: 0,
     Rainy: 0,
     Cloudy: 0,
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
 
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to process weather prediction' },
+      { error: `Failed to process weather prediction${error}` },
       { status: 500 }
     )
   }

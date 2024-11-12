@@ -89,7 +89,7 @@ export default function WeatherCard({ onDistrictChange }: WeatherCardProps) {
   // Cargar datos iniciales
   useEffect(() => {
     handlePredictWeather()
-  }, [])
+  }, [handlePredictWeather])
 
   return (
     <Card>
