@@ -77,6 +77,7 @@ export default function WeatherCard({ onDistrictChange }: WeatherCardProps) {
   // Cargar datos iniciales
   useEffect(() => {
     handlePredictWeather()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
